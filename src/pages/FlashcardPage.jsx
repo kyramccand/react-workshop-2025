@@ -35,6 +35,19 @@ export default function FlashcardPage() {
 
     // Update the state with the new array
 
+    const updatedCards = new Array(cards.length - 1);
+
+    for (let i = 0; i < cards.length; i++) {
+      if (i < index) {
+        updatedCards[i] = cards[i];
+      }
+      else if(i > index) {
+        updatedCards[i - 1] = cards[i];
+      }
+    }
+    setCards(updatedCards);
+
+
   }
 
   function handleAddCard(newCard) {
@@ -45,12 +58,23 @@ export default function FlashcardPage() {
 
     // Update the state with the new array
 
+    const updatedCards = new Array(cards.length + 1);
+    updatedCards[0] = newCard;
+
+    for (let i = 0; i < cards.length; i++) {
+      updatedCards[i + 1] = cards[i];
+    }
+      
+      setCards(updatedCards);
+
   }
 
   return (
     <div className="flex flex-col items-center m-5">
       {/* TODO: Add a title for the page here.
         * Hint: we have a PageTitle component we used in the last section */}
+
+        <PageTitle contents="Welcome to Flashcards, Kyra!" />
 
       {
         // If there are no cards, display a message saying so
@@ -63,6 +87,7 @@ export default function FlashcardPage() {
               key={index}
               question={card.question}
               answer={card.answer}
+              onClick={() => flipCard()}
               onDelete={() => deleteCard(index)}
             />
           ))
